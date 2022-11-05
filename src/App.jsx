@@ -6,6 +6,9 @@ function App() {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const [placeholder, setPlaceholder] = useState(
+    "Search Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh.."
+  );
   const configuration = new Configuration({
     apiKey: import.meta.env.VITE_Open_AI_Key,
   });
@@ -13,6 +16,7 @@ function App() {
   const openai = new OpenAIApi(configuration);
 
   const generateImage = async () => {
+    setPlaceholder(`Search ${prompt}..`);
     setLoading(true);
     const res = await openai.createImage({
       prompt: prompt,
@@ -38,7 +42,7 @@ function App() {
 
           <textarea
             className="app-input"
-            placeholder="Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh.."
+            placeholder={placeholder}
             onChange={(e) => setPrompt(e.target.value)}
             rows="10"
             cols="40"
